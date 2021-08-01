@@ -51,41 +51,14 @@ startRecording = (event) => {
         pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(sd))))
    } catch (e) {
         alert(e)
-    } 
+   } 
+
+   // send session description to server
 }
 
-chooseDesktopMedia = () => {
-    chrome.desktopCapture.chooseDesktopMedia([
-        'screen', 'window', 'tab'
-    ], tab, function(streamId) {
-        if (chrome.runtime.lastError) {
-            alert('Failed to get desktop media: ' + chrome.runtime.lastError.message);
-            return;
-        }   
-
-        // I am using inline code just to have a self-contained example.
-        // You can put the following code in a separate file and pass
-        // the stream ID to the extension via message passing if wanted.
-        var code = (streamId) => {
-            navigator.webkitGetUserMedia({
-                audio: false,
-                video: {
-                    mandatory: {
-                        chromeMediaSource: 'desktop',
-                        chromeMediaSourceId: streamId
-                    }   
-                }   
-            }, function onSuccess(stream) {
-                pc.addStream(document.getElementById('video1').srcObject = stream)
-                pc.createOffer().then(d => pc.setLocalDescription(d)).catch(log)
-            }, function onError() {
-                alert('Failed to get user media.');
-            }); 
-        }
-
-        code(streamId);
-    });
+stopRecording = (event) => {
+    pc.close();
 }
 
-
-document.getElementById('startSessionBtn').addEventListener('click', chooseDesktopMedia, false);
+document.getElementById('startSessionBtn').addEventListener('click', startRecording, false);
+document.getElementById('stopSessionBtn').addEventListener('click', stopRecording, false);
