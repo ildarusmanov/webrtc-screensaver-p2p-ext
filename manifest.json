@@ -1,0 +1,14 @@
+{
+    "manifest_version": 2,
+    "name": "WOOM Chrome Extension",
+    "version": "0.1",
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "permissions": [
+        "notifications",
+        "desktopCapture"
+    ],
+    "options_page": "option.html",
+    "web_accessible_resources": ["background.js", "popup.js"]
+}
